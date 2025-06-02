@@ -28,14 +28,14 @@ export default class DetailStoryPresenter {
         this.#dbModel.removeStory(this.#storyId);
         // this.#view.removeBookmarkSuccessfully()
 
-        imgEl.src = `/images/bookmark.png?${Date.now()}`;
+        imgEl.src = `./images/bookmark.png?${Date.now()}`;
 
         alert("Bookmark removed successfully!");
       } else {
         const story = await this.getStory(this.#storyId);
         console.log("Story to bookmark", story);
         await this.#dbModel.putStory(story.story);
-        imgEl.src = `/images/bookmark_filled.svg?${Date.now()}`;
+        imgEl.src = `./images/bookmark_filled.svg?${Date.now()}`;
 
         console.log(imgEl);
         this.#view.saveToBookmarkSuccessfully("Success to save to bookmark");

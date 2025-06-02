@@ -66,7 +66,7 @@ export default class detailStoryPage {
                 <p class="detail-description">${story.description}</p>
             </div>
             <button id="save-bookmark">
-              <img class="bookmark-img" src="/images/${
+              <img class="bookmark-img" src="./images/${
                 isStorySaved
                   ? "bookmark_filled.svg"
                   : "bookmark.png"
