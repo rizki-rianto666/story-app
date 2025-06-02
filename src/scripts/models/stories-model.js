@@ -1,5 +1,6 @@
 import CONFIG from "../config";
 import ENDPOINTS from "../data/api";
+import { getAccessToken } from "./auth-model";
 
 const token = localStorage.getItem(CONFIG.ACCESS_TOKEN_VAR);
 
@@ -60,3 +61,5 @@ export async function addStory(formData) {
 
   return response.json();
 }
+
+

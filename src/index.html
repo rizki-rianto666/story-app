@@ -5,7 +5,8 @@
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="shortcut icon" href="favicon.png">
-  <link rel="stylesheet" href="./styles/styles.css">
+  <!-- <link rel="stylesheet" href="./styles/styles.css"> -->
+  <link rel="manifest" href="app.webmanifest">
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -21,14 +22,22 @@
     <button id="skip-link" class="skip-link">Menuju konten utama</button>
 
     <div class="main-header container">
-      <a class="brand-name" href="#/">StoryApp</a>
+
+      <div>
+        <a class="brand-name" href="#/">StoryApp</a>
+        <button id="subs-button">Subscribe</button>
+        <button id="bookmark">
+          Go to Bookmark
+          <img src="/images/bookmark.png" alt="bookmark page">
+        </button>
+      </div>
 
       <nav id="navigation-drawer" class="navigation-drawer">
         <ul id="nav-list" class="nav-list">
           <li><a href="#/">Beranda</a></li>
           <li><a href="#/add">Add Story</a></li>
           <li><a href="#/login">Login</a></li>
-          <li><a href="#/logout">Logout</a></li>
+          <li><a id="logout-button" href="#/logout">Logout</a></li>
         </ul>
       </nav>
 

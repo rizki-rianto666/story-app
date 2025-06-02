@@ -1,6 +1,7 @@
 import { getStory } from "../../models/stories-model";
 import DetailStoryPresenter from "./detail-story-presenter";
 import * as storiesModel from "../../models/stories-model";
+import Database from "../../data/database";
 
 export default class detailStoryPage {
   #presenter;
@@ -15,20 +16,21 @@ export default class detailStoryPage {
             <div id="map">
             
             </div>
-
         </section>
         `;
   }
 
   async afterRender() {
-    this.#presenter = new DetailStoryPresenter({
-      view: this,
-      model: storiesModel,
-    });
-
     const url = new URL(location);
     const id = url.hash.split("/")[2];
-    const story = await this.#presenter.getStory(id);
+
+    this.#presenter = new DetailStoryPresenter(id, {
+      view: this,
+      model: storiesModel,
+      dbModel: Database,
+    });
+
+    const story = await this.#presenter.getStory();
 
     if (!story.error) {
       await this.#populateDetailCard(story.story);
@@ -54,6 +56,7 @@ export default class detailStoryPage {
       document.getElementById("card-info").innerHTML = errorPage;
       return;
     }
+    const isStorySaved = await this.#presenter.isStorySaved()
     const storyHTML = `
         <div class="detail-story-card" data-story-id='${story.id}'>
             <img src="${story.photoUrl}" alt="Story image">
@@ -62,9 +65,22 @@ export default class detailStoryPage {
                 <p class="detail-created-at">Created at: ${story.createdAt}</p>
                 <p class="detail-description">${story.description}</p>
             </div>
+            <button id="save-bookmark">
+              <img class="bookmark-img" src="/images/${
+                isStorySaved
+                  ? "bookmark_filled.svg"
+                  : "bookmark.png"
+              }" alt="save story to bookmark">
+            </button>
         </div>
     `;
     document.getElementById("card-info").innerHTML = storyHTML;
+    document
+      .getElementById("save-bookmark")
+      .addEventListener("click", async () => {
+        const imgEl = document.querySelector('.bookmark-img')
+        await this.#presenter.saveBookmark(imgEl);
+      });
   }
   async #setMap(story) {
     if (story.lat && story.lon) {
@@ -90,4 +106,12 @@ export default class detailStoryPage {
   getErrorMessage(msg) {
     alert(msg);
   }
+
+  saveToBookmarkSuccessfully() {
+    alert("Story Bookmarked!");
+  }
+  saveToBookmarkFailed(message) {
+    alert(message);
+  }
+
 }

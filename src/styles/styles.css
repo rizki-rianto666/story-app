@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
@@ -49,6 +48,25 @@ html {
 
 body {
   font-family: "Arial", sans-serif;
+}
+
+#logout-button {
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background-color: rgb(228, 62, 62);
+  text-decoration: none;
+  color: white;
+}
+#logout-button:active {
+  font-style: none;
+  color: white;
+}
+
+#save-bookmark {
+  background-color: lightskyblue;
 }
 
 #skip-link {
@@ -176,6 +194,29 @@ header {
 }
 .story-content .description {
   color: #555;
+}
+
+#subs-button {
+  margin-left: 10px;
+  background-color: rgb(163, 217, 250);
+  border: white solid thin;
+  color: #ffffff;
+}
+
+/* Bookmark */
+#bookmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(163, 217, 250);
+  border: white solid thin;
+  color: #ffffff;
+}
+#bookmark-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
 }
 
 /* Container utama */
@@ -607,7 +648,6 @@ button[type="submit"]:hover {
   border-top: 1px solid #ddd;
   margin-top: auto;
 }
-
 
 /* Responsive Improvements */
 @media (min-width: 768px) {

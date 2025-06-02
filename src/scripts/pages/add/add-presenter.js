@@ -10,9 +10,11 @@ export default class AddStoryPresenter {
   async addStory(formData) {
     try {
       await this.#model.addStory(formData);
-      this.#view.addSuccess();
+      this.#view.addSuccess("Succesfully add story!");
     } catch (error) {
-      this.#view.addFailed();
+      this.#view.addFailed("Failed to add story");
     }
   }
+
+
 }

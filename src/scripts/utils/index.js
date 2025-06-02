@@ -33,8 +33,6 @@ export function setupSkipToContent(element, mainContent) {
   console.log("element", element);
 
   element.addEventListener("click", () => {
-    console.log("BUTTON CLICK");
-
     const scrollParent = mainContent.closest("[data-scrollable]");
     console.log(scrollParent);
     if (!mainContent.hasAttribute("tabindex")) {
@@ -81,4 +79,16 @@ export function updateAuthLinks() {
 
   if (loginLink) loginLink.style.display = isLoggedIn ? 'none' : 'inline';
   if (logoutLink) logoutLink.style.display = isLoggedIn ? 'inline' : 'none';
+}
+
+export function convertBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; i++) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
 }

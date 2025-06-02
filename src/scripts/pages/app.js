@@ -1,6 +1,11 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
 import { setupSkipToContent, transitionHelper } from "../utils";
+import {
+  isCurrentPushSubscriptionAvailable,
+  isServiceWorkerAvailable,
+  subscribe,
+} from "../utils/push-notification";
 
 class App {
   #content = null;
@@ -39,12 +44,38 @@ class App {
     });
   }
 
+  // Push notif
+  #handleSubsClick = async () => {
+    await subscribe();
+    const isSubscribed = await isCurrentPushSubscriptionAvailable();
+    const subsButton = document.getElementById("subs-button");
+    subsButton.innerHTML = isSubscribed ? "Unsubscribe" : "Subscribe";
+  };
+
+  async #setupPushNotification() {
+    const isSubscribed = await isCurrentPushSubscriptionAvailable();
+    const subsButton = document.getElementById("subs-button");
+
+    subsButton.innerHTML = isSubscribed ? "Unsubscribe" : "Subscribe";
+
+    const newButton = subsButton.cloneNode(true);
+    subsButton.replaceWith(newButton);
+
+    newButton.addEventListener("click", this.#handleSubsClick);
+  }
+
   async renderPage() {
     const url = getActiveRoute();
     const route = routes[url];
     const page = route();
-    console.log(route)
-    console.log(page)
+    if (!page) {
+      location.reload();
+    }
+    // Go to Bookmark Button
+    document.getElementById('bookmark').addEventListener('click', ()=>{
+      location.hash = '/bookmark'
+    });
+
     const transition = transitionHelper({
       updateDOM: async () => {
         const newHTML = await page.render();
@@ -63,7 +94,11 @@ class App {
     transition.ready?.catch(console.error);
 
     transition.updateCallbackDone?.then(() => {
-      scrollTo({ top: 0 });
+      scrollTo({ top: 0, behavior: "smooth" });
+
+      if (isServiceWorkerAvailable()) {
+        this.#setupPushNotification();
+      }
     });
 
     if (!document.startViewTransition) {

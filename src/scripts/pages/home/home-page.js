@@ -67,7 +67,6 @@ export default class HomePage {
       );
     }, "");
 
-    console.log(storiesHTML);
     return storiesHTML;
   }
 }
