@@ -4,9 +4,7 @@ import Camera from "./camera";
 
 import App from "./pages/app";
 import { updateAuthLinks } from "./utils";
-import {
-  registerServiceWorker,
-} from "./utils/push-notification";
+import { registerServiceWorker } from "./utils/push-notification";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const app = new App({
@@ -17,6 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   updateAuthLinks();
   await app.renderPage();
+
   await registerServiceWorker();
 
   window.addEventListener("hashchange", async () => {
